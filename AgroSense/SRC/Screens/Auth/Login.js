@@ -1,4 +1,4 @@
-import { Text, StyleSheet, View, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import { Text, StyleSheet, View, TextInput, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 
 export default function Login({ navigation }) {
@@ -6,38 +6,50 @@ export default function Login({ navigation }) {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState(""); // Estado para confirmar la contraseña
-    const [showPassword, setShowPassword] = useState(false);  // Estado para manejar la visibilidad de la contraseña
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Estado para manejar la visibilidad de la confirmación de contraseña
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);  // Alterna la visibilidad de la contraseña
-    };
+    // Estados para el manejo de errores
+    const [nameError, setNameError] = useState(false);
+    const [phoneError, setPhoneError] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
-    const toggleConfirmPasswordVisibility = () => {
-        setShowConfirmPassword(!showConfirmPassword); // Alterna la visibilidad de la confirmación de contraseña
-    };
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
+    const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
     const handleSubmit = () => {
-        if (!name || !phone || !email || !password || !confirmPassword) {
-            Alert.alert("Error", "Todos los campos son obligatorios.");
+        // Reinicia los errores antes de validar
+        setNameError(!name);
+        setPhoneError(!phone);
+        setEmailError(!email);
+        setPasswordError(!password);
+        setConfirmPasswordError(!confirmPassword || password !== confirmPassword);
+
+        // Verifica si hay errores en los campos
+        if (!name || !phone || !email || !password || !confirmPassword || password !== confirmPassword) {
             return;
         }
-        if (password !== confirmPassword) {
-            Alert.alert("Error", "Las contraseñas no coinciden.");
-            return;
-        }
-        // Aquí puedes manejar el envío del formulario si todas las validaciones son correctas
-        Alert.alert("Éxito", "Registro enviado con éxito.");
+
+        // Si todo es correcto, limpia los campos
+        setName("");
+        setPhone("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+
+        console.log("Registro enviado con éxito.");
     };
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Registrarse</Text>
 
-            {/* Campo Nombre con icono */}
-            <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-usuario-de-género-neutro-48.png')} style={styles.icon} />
+            {/* Campo Nombre */}
+            <View style={[styles.inputContainer, nameError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-usuario-de-género-neutro-48.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre"
@@ -47,12 +59,12 @@ export default function Login({ navigation }) {
                 />
             </View>
 
-            {/* Campo Número de teléfono */}
-            <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-teléfono-50.png')} style={styles.icon} />
+            {/* Campo Teléfono */}
+            <View style={[styles.inputContainer, phoneError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-teléfono-50.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="Número de telefono"
+                    placeholder="Número de teléfono"
                     value={phone}
                     keyboardType="phone-pad"
                     onChangeText={setPhone}
@@ -60,12 +72,12 @@ export default function Login({ navigation }) {
                 />
             </View>
 
-            {/* Campo Correo Electrónico */}
-            <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-logo-de-google-48.png')} style={styles.icon} />
+            {/* Campo Correo */}
+            <View style={[styles.inputContainer, emailError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-logo-de-google-48.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="correo electronico"
+                    placeholder="Correo electrónico"
                     value={email}
                     keyboardType="email-address"
                     onChangeText={setEmail}
@@ -73,35 +85,35 @@ export default function Login({ navigation }) {
                 />
             </View>
 
-            {/* Campo Contraseña con icono y botón para mostrar/ocultar */}
-            <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-contraseña-50.png')} style={styles.icon} />
+            {/* Campo Contraseña */}
+            <View style={[styles.inputContainer, passwordError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-contraseña-50.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="contraseña"
+                    placeholder="Contraseña"
                     value={password}
-                    secureTextEntry={!showPassword}  // Usa el estado para determinar si se debe ocultar la contraseña
+                    secureTextEntry={!showPassword}
                     onChangeText={setPassword}
                     placeholderTextColor="#4A6B3E"
                 />
                 <TouchableOpacity onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-                    <Image source={require('../Assets/icons8-visible-48.png')} style={styles.icon} />
+                    <Image source={require('../../Assets/icons8-visible-48.png')} style={styles.eyeIconImage} />
                 </TouchableOpacity>
             </View>
 
-            {/* Campo Confirmar Contraseña con icono y botón para mostrar/ocultar */}
-            <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-contraseña-50.png')} style={styles.icon} />
+            {/* Campo Confirmar Contraseña */}
+            <View style={[styles.inputContainer, confirmPasswordError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-contraseña-50.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
                     placeholder="Confirmar contraseña"
                     value={confirmPassword}
-                    secureTextEntry={!showConfirmPassword}  // Usa el estado para determinar si se debe ocultar la confirmación de contraseña
+                    secureTextEntry={!showConfirmPassword}
                     onChangeText={setConfirmPassword}
                     placeholderTextColor="#4A6B3E"
                 />
                 <TouchableOpacity onPress={toggleConfirmPasswordVisibility} style={styles.eyeIcon}>
-                    <Image source={require('../Assets/icons8-visible-48.png')} style={styles.icon} />
+                    <Image source={require('../../Assets/icons8-visible-48.png')} style={styles.eyeIconImage} />
                 </TouchableOpacity>
             </View>
 
@@ -110,7 +122,7 @@ export default function Login({ navigation }) {
                 <Text style={styles.buttonText}>Iniciar</Text>
             </TouchableOpacity>
 
-            {/* Texto y botón para iniciar sesión */}
+            {/* Enlace para Iniciar Sesión */}
             <View style={styles.loginContainer}>
                 <Text style={styles.loginText}>¿Ya tienes una cuenta?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.loginButton}>
@@ -119,7 +131,7 @@ export default function Login({ navigation }) {
             </View>
 
             {/* Imagen inferior */}
-            <Image source={require('../Assets/Agro.png')} style={styles.bottomImage} />
+            <Image source={require('../../Assets/Agro.png')} style={styles.bottomImage} />
         </View>
     );
 }
@@ -148,21 +160,29 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         marginBottom: 16,
     },
+    inputError: {
+        borderColor: "red", // Cambia el color del borde a rojo cuando hay error
+    },
     icon: {
         width: 24,
         height: 24,
-        marginRight: 8,
+        marginRight: 10,
     },
     input: {
         flex: 1,
         height: "100%",
-        paddingVertical: 0,
         fontSize: 16,
         paddingLeft: 10,
         color: "#4A6B3E",
     },
     eyeIcon: {
-        marginLeft: 8,
+        marginLeft: 10,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    eyeIconImage: {
+        width: 24,
+        height: 24,
     },
     button: {
         width: "85%",
@@ -171,7 +191,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#4A6B3E",
         borderRadius: 25,
-        marginTop: 2,
+        marginTop: 0,
     },
     buttonText: {
         color: "#fff",
@@ -195,12 +215,10 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     bottomImage: {
-        width: "109%",
+        width: "190%",
         height: 240,
-        marginTop: 0,
         resizeMode: "contain",
         position: "relative",
-        bottom: 0, // Ubica la imagen en la parte inferior del contenedor
-        left: 0,
+        bottom: 0,
     },
 });

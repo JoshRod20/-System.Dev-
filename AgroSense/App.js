@@ -7,8 +7,8 @@ import { NavigationContainer } from '@react-navigation/native'; // Enrutador par
 
 
 // Importamos las pantallas
-import Login from './SRC/Screens/Login';
-import Home from './SRC/Screens/Home';
+import Login from './SRC/Screens/Auth/Login';
+import Home from './SRC/Screens/Producer/Home';
 
 export default function App() {
 
@@ -17,7 +17,15 @@ export default function App() {
   function MyStack() {
     return (
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Login" component={Login} 
+          options={{
+            title: "LOGIN",
+            headerTintColor: "white",
+            headerTitleAlign: "center",
+            headerStyle: {backgroundColor: "#4A6B3E"}
+          }}
+        />
+
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     );
