@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import 'react-native-gesture-handler';
+
+import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native'; // Enrutador para navegación entre pantallas
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 
 // Importamos las pantallas
-import Login from './screens/Login';
-import Home from './screens/Home';
+import Login from './SRC/Screens/Login';
+import Home from './SRC/Screens/Home';
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
+
+  const Stack = createStackNavigator();
 
   function MyStack() {
     return (
@@ -22,7 +25,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MyStack />
+      <MyStack/>
     </NavigationContainer>
   );
 }

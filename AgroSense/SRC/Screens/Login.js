@@ -5,21 +5,7 @@ export default function Login({ }) {
 
 return (
     <View style={styles.container}>
-    <Text>Login</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Usuario"
-            value={username}
-            onChangeText={setUsername}
-        />
-        <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-        />
-        <Button title="Iniciar sesión" onPress={handleLogin} />
+        <Text>Login</Text>
     </View>
     );
 }
