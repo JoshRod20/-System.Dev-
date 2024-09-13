@@ -13,13 +13,13 @@ export default function Login({ }) {
 
             {/* Campo Nombre con icono */}
             <View style={styles.inputContainer}>
-                <Image source={require('../Assets/icons8-usuario-48.png')} style={styles.icon} />
+                <Image source={require('../Assets/icons8-usuario-de-género-neutro-48.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
                     placeholder="Nombre"
                     value={name}
                     onChangeText={setName}
-                    placeholderTextColor="#A5C79C"
+                    placeholderTextColor="#9EAD6E"
                 />
             </View>
 
@@ -28,24 +28,24 @@ export default function Login({ }) {
                 <Image source={require('../Assets/icons8-teléfono-50.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="Número de teléfono"
+                    placeholder="Número de telefono"
                     value={phone}
                     keyboardType="phone-pad"
                     onChangeText={setPhone}
-                    placeholderTextColor="#A5C79C"
+                    placeholderTextColor="#9EAD6E"
                 />
             </View>
 
-            {/* Campo Correo Electrónico con icono de Google */}
+            {/* Campo Correo Electrónico */}
             <View style={styles.inputContainer}>
                 <Image source={require('../Assets/icons8-logo-de-google-48.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="Correo electrónico"
+                    placeholder="correo electronico"
                     value={email}
                     keyboardType="email-address"
                     onChangeText={setEmail}
-                    placeholderTextColor="#A5C79C"
+                    placeholderTextColor="#9EAD6E"
                 />
             </View>
 
@@ -54,11 +54,11 @@ export default function Login({ }) {
                 <Image source={require('../Assets/icons8-contraseña-50.png')} style={styles.icon} />
                 <TextInput
                     style={styles.input}
-                    placeholder="Contraseña"
+                    placeholder="contraseña"
                     value={password}
                     secureTextEntry={true}
                     onChangeText={setPassword}
-                    placeholderTextColor="#A5C79C"
+                    placeholderTextColor="#9EAD6E"
                 />
             </View>
 
@@ -66,6 +66,9 @@ export default function Login({ }) {
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Iniciar</Text>
             </TouchableOpacity>
+
+            {/* Imagen inferior */}
+            <Image source={require('../Assets/Agro.png')} style={styles.bottomImage} />
         </View>
     );
 }
@@ -73,7 +76,7 @@ export default function Login({ }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "center",
+
         alignItems: "center",
         padding: 16,
         backgroundColor: "#fff",
@@ -82,16 +85,17 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: "bold",
         marginBottom: 24,
-        color: "#4C8A2E",
+        color: "#4A6B3E",
     },
     inputContainer: {
         flexDirection: "row",
         alignItems: "center",
-        width: "80%",
-        padding: 10,
-        borderWidth: 1,
-        borderColor: "#A5C79C",
-        borderRadius: 5,
+        width: "85%",  
+        height: 50,  
+        paddingHorizontal: 10,
+        borderWidth: 2,
+        borderColor: "#9EAD6E",
+        borderRadius: 25,
         marginBottom: 16,
     },
     icon: {
@@ -101,18 +105,32 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        padding: 10,
+        height: "100%",  // Ajustar la altura del campo de texto al contenedor
+        paddingVertical: 0,  // Eliminar padding vertical para centrar mejor el texto
+        fontSize: 16,   // Ajustar el tamaño de la fuente
+        paddingLeft: 10,  // Aumentar el padding para un mejor espaciado
+        color: "#4A6B3E", // Color del texto
     },
     button: {
-        width: "80%",
-        padding: 15,
-        backgroundColor: "#4C8A2E",
+        width: "85%",    // Ancho ajustado del botón
+        height: 50,      // Altura del botón
+        justifyContent: "center",
         alignItems: "center",
-        borderRadius: 5,
+        backgroundColor: "#4A6B3E",
+        borderRadius: 25,  // Bordes redondeados del botón
+        marginTop: 20,    
     },
     buttonText: {
         color: "#fff",
         fontSize: 18,
         fontWeight: "bold",
+    },
+    bottomImage: {
+        width: "115%",
+        height: 300,
+        marginTop:85,
+        resizeMode: "contain",
+        position: "relative",
+        bottom: 0,
     },
 });
