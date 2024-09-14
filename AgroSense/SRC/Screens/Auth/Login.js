@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
-    export default function Login({ navigation }) {
+import appFirebase from "../../Services/FireBase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+
+// Inicializa el servicio de autenticación de Firebase usando `appFirebase`
+const auth = getAuth(appFirebase);
+
+export default function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -12,68 +18,73 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image } from "reac
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-    const handleLogin = () => {
+    // Cambiamos la función handleLogin a una función asincrónica
+    const handleLogin = async () => {
         // Reinicia los errores antes de validar
         setEmailError(!email);
         setPasswordError(!password);
 
         // Si algún campo está vacío, no procedemos
         if (!email || !password) {
-        return;
+            return;
         }
 
         // Si los campos están correctos, se puede proceder con la autenticación
         console.log("Email:", email, "Password:", password);
 
-        // Puedes agregar una acción de éxito, como navegar a otra pantalla
-        // Ejemplo: navigation.navigate('Home');
+        // Autenticación
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            // Navega a la pantalla 'Home' si el inicio de sesión es exitoso
+            props.navigation.navigate('Home');
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
         <View style={styles.container}>
-        <Text style={styles.title}>Iniciar Sesión</Text>
+            <Text style={styles.title}>Iniciar Sesión</Text>
 
-        {/* Campo Correo */}
-        <View style={[styles.inputContainer, emailError && styles.inputError]}>
-            <Image source={require('../../Assets/icons8-logo-de-google-48.png')} style={styles.icon} />
-            <TextInput
-            style={styles.input}
-            placeholder="Correo electrónico"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            placeholderTextColor="#4A6B3E"
-            />
-        </View>
+            {/* Campo Correo */}
+            <View style={[styles.inputContainer, emailError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-logo-de-google-48.png')} style={styles.icon} />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Correo electrónico"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    placeholderTextColor="#4A6B3E"
+                />
+            </View>
 
-        {/* Campo Contraseña */}
-        <View style={[styles.inputContainer, passwordError && styles.inputError]}>
-            <Image source={require('../../Assets/icons8-contraseña-50.png')} style={styles.icon} />
-            <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-            placeholderTextColor="#4A6B3E"
-            />
-            <TouchableOpacity onPress={togglePasswordVisibility}>
-            <Image source={require('../../Assets/icons8-visible-48.png')} style={styles.eyeIconImage} />
+            {/* Campo Contraseña */}
+            <View style={[styles.inputContainer, passwordError && styles.inputError]}>
+                <Image source={require('../../Assets/icons8-contraseña-50.png')} style={styles.icon} />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={!showPassword}
+                    placeholderTextColor="#4A6B3E"
+                />
+                <TouchableOpacity onPress={togglePasswordVisibility}>
+                    <Image source={require('../../Assets/icons8-visible-48.png')} style={styles.eyeIconImage} />
+                </TouchableOpacity>
+            </View>
+
+            {/* Botón de Iniciar */}
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Iniciar</Text>
             </TouchableOpacity>
-        </View>
 
-        {/* Botón de Iniciar */}
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Iniciar</Text>
-        </TouchableOpacity>
-
-        {/* Imagen inferior en el footer */}
-        <Image source={require('../../Assets/Agro.png')} style={styles.bottomImage} />
         </View>
     );
-    }
+}
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1, // Ocupa todo el espacio disponible
         justifyContent: "center", // Centra el contenido verticalmente
@@ -131,11 +142,4 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image } from "reac
         width: 24,
         height: 24,
     },
-    bottomImage: {
-        width: "200%",
-        height: 240,
-        resizeMode: "contain",
-        position: "absolute",
-        bottom: 0, // Posiciona la imagen en la parte inferior
-    },
-    });
+});
