@@ -1,5 +1,5 @@
-    import React, { useState } from "react";
-    import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 
     export default function Login({ navigation }) {
     const [email, setEmail] = useState("");
@@ -66,14 +66,18 @@
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttonText}>Iniciar</Text>
         </TouchableOpacity>
+
+        {/* Imagen inferior en el footer */}
+        <Image source={require('../../Assets/Agro.png')} style={styles.bottomImage} />
         </View>
     );
     }
 
     const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: "center",
+        flex: 1, // Ocupa todo el espacio disponible
+        justifyContent: "center", // Centra el contenido verticalmente
+        alignItems: "center", // Centra el contenido horizontalmente
         padding: 16,
         backgroundColor: "#fff",
     },
@@ -116,7 +120,7 @@
         alignItems: "center",
         backgroundColor: "#4A6B3E",
         borderRadius: 25,
-        marginTop: 20,
+        marginTop: 0,
     },
     buttonText: {
         color: "#fff",
@@ -126,5 +130,12 @@
     eyeIconImage: {
         width: 24,
         height: 24,
+    },
+    bottomImage: {
+        width: "200%",
+        height: 240,
+        resizeMode: "contain",
+        position: "absolute",
+        bottom: 0, // Posiciona la imagen en la parte inferior
     },
     });
